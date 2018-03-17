@@ -1,0 +1,22 @@
+{
+  "name": "electron-101-backend",
+  "version": "1.0.0",
+  "description": "Demo Backend Server For Electron JS Digit DevWorx",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app/app.js"
+  },
+  "author": "Agnibha <agnibhabose@outlook.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "diskdb": "^0.1.17",
+    "express": "^4.16.3",
+    "express-ws": "^3.0.0",
+    "http-status": "^1.0.1",
+    "jsonwebtoken": "^8.2.0"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "PORT": 8692,
+  "DB_PATH": "/home/agnibha/My_Work/electron_digit_101/server/db",
+  "APP_SECRET": "DIGIT_ELECTRON"
+}
