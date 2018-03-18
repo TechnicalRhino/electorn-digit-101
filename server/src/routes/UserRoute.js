@@ -29,7 +29,7 @@ Router.put("/updateStatus", (req, resp) => {
     let query = {_id: userId};
     let user = UserManager.getUserByQuery(query);
     user.status = "online";
-    UserManager.saveUser(query, user, {upsert: false});
+    UserManager.updateUser(query, user, {upsert: false});
     resp.status(HTTPStatus.OK).send({"status": "success", "message": "User Logged in Successfully"});
 });
 
