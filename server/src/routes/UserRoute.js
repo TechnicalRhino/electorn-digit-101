@@ -23,4 +23,16 @@ Router.get('/', (req, resp) => {
     return resp.status(HTTPStatus.OK).send({status: "success", user});
 });
 
+Router.put("/updateStatus", (req, resp) => {
+    "use strict";
+    let userId = req.body.userID.id;
+    let query = {_id: userId};
+    let user = UserManager.getUserByQuery(query);
+    user.status = "online";
+    UserManager.saveUser(query, user, {upsert: false});
+    resp.status(HTTPStatus.OK).send({"status": "success", "message": "User Logged in Successfully"});
+});
+
+
+
 module.exports = Router;

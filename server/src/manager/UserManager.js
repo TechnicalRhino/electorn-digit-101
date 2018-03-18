@@ -20,6 +20,10 @@ class UserManager {
         delete userInfo.password;
         return userInfo;
     }
+
+    updateUser(query, newValue, options) {
+        DB.users.update(query, newValue, options);
+    }
 }
 
 module.exports = new UserManager();
