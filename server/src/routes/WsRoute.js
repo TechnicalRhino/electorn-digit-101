@@ -8,8 +8,8 @@ const clients = new Map();
 
 Router.ws("/", (ws, req) => {
     "use strict";
-    ws.id = req.param.id;
-    clients.set(req.param.id, ws);
+    ws.id = req.query.userId;
+    clients.set(req.query.userId, ws);
     ws.on('message', msg => {
         let message = JSON.parse(msg);
         if (clients.has(message.destination)) {
@@ -18,6 +18,12 @@ Router.ws("/", (ws, req) => {
             ws.send(JSON.stringify({"status": "error", "message": "User Not Connected"}));
         }
     });
+    ws.on('error', () => {
+        clients.delete(ws.id);
+    });
+    ws.on('close', () => {
+        clients.delete(ws.id);
+    })
 });
 
 
