@@ -26,5 +26,20 @@ Router.ws("/", (ws, req) => {
     })
 });
 
+class WebSocketManager {
+    publishMessage(channelId, message) {
+        return new Promise((resolve, reject) => {
+            if (clients.has(channelId)) {
+                clients.get(channelId).send(message);
+                resolve();
+            } else {
+                reject("User Is Not Connected");
+            }
+        });
+    }
+}
 
-module.exports = Router;
+module.exports = {
+    manager: new WebSocketManager(),
+    Router
+};

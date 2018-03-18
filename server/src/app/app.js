@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/register', RegistrationRoute);
 app.use('/login', LoginRoute);
 app.use('/user', UserRoute);
-app.use('/chat', WebSocketRouter);
+app.use('/chat', WebSocketRouter.Router);
 
 app.listen(appConfig.PORT, () => {
     "use strict";

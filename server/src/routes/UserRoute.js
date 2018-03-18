@@ -6,6 +6,8 @@ const Router = require('express').Router();
 const jwtAuth = require('../utils/JWTAuthHelper');
 const UserManager = require('../manager/UserManager');
 const HTTPStatus = require('http-status');
+const WsManager = require('../routes/WsRoute').manager;
+
 
 Router.use(jwtAuth);
 
@@ -39,7 +41,11 @@ Router.post('/chatFriend', (req, resp) => {
     let friend = UserManager.getUserByQuery({email: friendEmail});
     if (friend) {
         if (friend.status === "online") {
-            WebSocketManager.publishMessage(friend._id, "startChattingEvent");
+            WsManager.publishMessage(friend._id, "startChattingEvent").then(() => {
+                resp.status(HTTPStatus.OK).send({"status": "success", message: "User Connected Successfully"});
+            }).catch((msg) => {
+                resp.status(HTTPStatus.PRECONDITION_FAILED).send({"status": "error", "message": msg});
+            })
         } else {
             resp.status(HTTPStatus.PRECONDITION_FAILED).send({"status": "error", "message": "User is not online"});
         }
