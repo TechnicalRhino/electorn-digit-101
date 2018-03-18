@@ -55,7 +55,7 @@ Router.post('/chatFriend', (req, resp) => {
             "message": `User with email => ${friendEmail} not found`
         });
     }
-})
+});
 
 
 module.exports = Router;
