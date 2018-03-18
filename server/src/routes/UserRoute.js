@@ -23,16 +23,33 @@ Router.get('/', (req, resp) => {
     return resp.status(HTTPStatus.OK).send({status: "success", user});
 });
 
-Router.put("/updateStatus", (req, resp) => {
+Router.put("/logout", (req, resp) => {
     "use strict";
     let userId = req.body.userID.id;
     let query = {_id: userId};
     let user = UserManager.getUserByQuery(query);
-    user.status = "online";
+    user.status = "offline";
     UserManager.updateUser(query, user, {upsert: false});
-    resp.status(HTTPStatus.OK).send({"status": "success", "message": "User Logged in Successfully"});
+    resp.status(HTTPStatus.OK).send({"status": "success", "message": "User Status Updates Successfully"});
 });
 
+Router.post('/chatFriend', (req, resp) => {
+    "use strict";
+    let friendEmail = req.body.friendEmail;
+    let friend = UserManager.getUserByQuery({email: friendEmail});
+    if (friend) {
+        if (friend.status === "online") {
+            WebSocketManager.publishMessage(friend._id, "startChattingEvent");
+        } else {
+            resp.status(HTTPStatus.PRECONDITION_FAILED).send({"status": "error", "message": "User is not online"});
+        }
+    } else {
+        resp.status(HTTPStatus.NOT_FOUND).send({
+            "status": "error",
+            "message": `User with email => ${friendEmail} not found`
+        });
+    }
+})
 
 
 module.exports = Router;
