@@ -39,10 +39,19 @@ Router.post('/chatFriend', (req, resp) => {
     "use strict";
     let friendEmail = req.body.friendEmail;
     let friend = UserManager.getUserByQuery({email: friendEmail});
+    let user = UserManager.getUserByQuery({_id: req.body.userID.id});
     if (friend) {
         if (friend.status === "online") {
-            WsManager.publishMessage(friend._id, "startChattingEvent").then(() => {
-                resp.status(HTTPStatus.OK).send({"status": "success", message: "User Connected Successfully"});
+            WsManager.publishMessage(friend._id, JSON.stringify({
+                "type": "event",
+                "message": "startchattingevent",
+                user
+            })).then(() => {
+                resp.status(HTTPStatus.OK).send({
+                    "status": "success",
+                    message: "User Connected Successfully",
+                    "friendId": friend._id
+                });
             }).catch((msg) => {
                 resp.status(HTTPStatus.PRECONDITION_FAILED).send({"status": "error", "message": msg});
             })

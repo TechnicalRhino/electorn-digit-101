@@ -13,7 +13,7 @@ Router.ws("/", (ws, req) => {
     ws.on('message', msg => {
         let message = JSON.parse(msg);
         if (clients.has(message.destination)) {
-            clients.get(message.destination).send(message.content);
+            clients.get(message.destination).send(JSON.stringify({"type": "msg", message: message.content}));
         } else {
             ws.send(JSON.stringify({"status": "error", "message": "User Not Connected"}));
         }
