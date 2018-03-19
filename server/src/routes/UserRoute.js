@@ -50,7 +50,8 @@ Router.post('/chatFriend', (req, resp) => {
                 resp.status(HTTPStatus.OK).send({
                     "status": "success",
                     message: "User Connected Successfully",
-                    "friendId": friend._id
+                    "friendId": friend._id,
+                    "friendName":friend.name
                 });
             }).catch((msg) => {
                 resp.status(HTTPStatus.PRECONDITION_FAILED).send({"status": "error", "message": msg});
